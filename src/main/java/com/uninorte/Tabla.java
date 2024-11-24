@@ -1,5 +1,6 @@
 package com.uninorte;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -20,9 +21,33 @@ public class Tabla {
         return structure;
     }
 
-    public void addReg(Map<String,Object> dataMap,String combinedId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addReg'");
+    public void addReg(Map<String, Object> dataMap, String combinedId,Registro register) {
+        registers.add(register);
+        StringBuilder sb = new StringBuilder();
+        sb.append("ID: ").append(combinedId).append("\n");
+        
+        for (Map.Entry<String, Object> entry : dataMap.entrySet()) {
+            sb.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+        }
+        archivo.escribir(sb.toString());
+        archivo.escribir("-----------------------");
+        
+    }
+
+    public void borrarTodo(){
+        String archivoRuta = this.archivo.getRuta();
+        File archivo = new File(this.archivo.getRuta());
+        if (archivo.exists()) {
+            if (archivo.delete()) {
+                System.out.println("Archivo eliminado: " + archivoRuta);
+            } else {
+                System.out.println("No se pudo eliminar el archivo: " + archivoRuta);
+            }
+        } else {
+            System.out.println("El archivo no existe: " + archivoRuta);
+        }
+        structure.clear();
+        registers.clear();
     }
 
     public String getTableId() {

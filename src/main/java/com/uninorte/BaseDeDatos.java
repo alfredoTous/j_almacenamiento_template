@@ -5,12 +5,12 @@ import java.util.ArrayList;
 
 public class BaseDeDatos {
 
-    private static ArrayList<ArrayList<String>> regStructures;
-    private static ArrayList<Tabla> tablas;
+    private static ArrayList<ArrayList<String>> regStructures = new ArrayList<>();
+    private static ArrayList<Tabla> tablas = new ArrayList<>();
 
     public static Tabla getTable(ArrayList<String>structure){
         for (Tabla tabla : tablas) {
-            if (tabla.getStructure() == structure){
+            if (tabla.getStructure().equals(structure)){
                 return tabla;
             }
         }
@@ -63,14 +63,17 @@ public class BaseDeDatos {
                 int tableId = numberOfTables + 1;
                 formattedTableId = String.format("%03d", tableId);
                 table = new Tabla(structure,formattedTableId);
+                tablas.add(table);
+                regStructures.add(structure);
             }else{
                 table = getTable(structure);
                 formattedTableId = table.getTableId();
+                System.out.println("Ricky es la bestia");
             }
             int registerId = table.getNumberOfRegisters()+1;
             String formattedRegisterId = String.format("%03d", registerId);
-            String combinedId = formattedRegisterId + formattedTableId;
-            table.addReg(registro.getDataMap(),combinedId); 
+            String combinedId = formattedTableId + formattedRegisterId ;
+            table.addReg(registro.getDataMap(),combinedId,registro); 
             
         return combinedId; 
     }
@@ -83,7 +86,11 @@ public class BaseDeDatos {
     }
 
     public static void BorrarTodo() {
-     
+        for (Tabla tabla : tablas) {
+            tabla.borrarTodo();
+        }
+        tablas.clear();
+        regStructures.clear();
     }
 
     public static boolean EditarReg(String recordId, Object... newValues) {
@@ -98,7 +105,15 @@ public class BaseDeDatos {
 
 
     public static int ObtenerNumRegistrosEnTabla(int i) {
-
+        String formattedTableId = String.format("%03d", i);
+        System.out.println(i);
+        System.out.println(formattedTableId);
+        for (Tabla tabla : tablas) {
+            System.out.println(tabla.getTableId());
+            if (tabla.getTableId().equals(formattedTableId)){
+                return tabla.getNumberOfRegisters();
+            }
+        }
         return -1;
     }
 

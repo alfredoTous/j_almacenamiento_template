@@ -27,6 +27,10 @@ public class Archivo {
         }
     }
 
+    public String getRuta() {
+        return ruta;
+    }
+
     public void escribir(String texto) {
         try (FileWriter writer = new FileWriter(ruta, true)) {
             writer.write(texto + "\n");
