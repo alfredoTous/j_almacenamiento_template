@@ -39,7 +39,7 @@ public class BaseDeDatos {
         }
     
         // Método público para agregar un registro con parámetros variables
-        public static String AgregarRegistro(Object... datos) {
+    public static String AgregarRegistro(Object... datos) {
             Registro registro = new Registro();
             int dataLength = datos.length;
             ArrayList<String> structure = new ArrayList<>();
@@ -81,8 +81,18 @@ public class BaseDeDatos {
 
     public static String ImprimirTodo() {
         StringBuilder result = new StringBuilder();
-    
-        return "SomeText";
+        for (Tabla tabla : tablas) {
+            Archivo tableFile = tabla.getArchivo();
+            String archivo = "archivos/"+tableFile.getNombre() + ".txt".trim();
+            StringBuilder tableResult = tableFile.leerRegsArchivo(archivo);
+            if(tableResult != null && tableResult.length() > 0){
+                result.append(tableResult.toString());
+                result.append("-- ");
+                result.replace(result.length()-7, result.length()-1, " -----");
+            }
+        }
+        result.setLength(result.length()-7);
+        return result.toString();
     }
 
     public static void BorrarTodo() {
@@ -106,8 +116,6 @@ public class BaseDeDatos {
 
     public static int ObtenerNumRegistrosEnTabla(int i) {
         String formattedTableId = String.format("%03d", i);
-        System.out.println(i);
-        System.out.println(formattedTableId);
         for (Tabla tabla : tablas) {
             System.out.println(tabla.getTableId());
             if (tabla.getTableId().equals(formattedTableId)){

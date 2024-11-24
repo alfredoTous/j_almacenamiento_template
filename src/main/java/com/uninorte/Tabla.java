@@ -29,9 +29,13 @@ public class Tabla {
         for (Map.Entry<String, Object> entry : dataMap.entrySet()) {
             sb.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
         }
+        sb.append("----------------------------");
         archivo.escribir(sb.toString());
-        archivo.escribir("-----------------------");
         
+    }
+
+    public Archivo getArchivo() {
+        return archivo;
     }
 
     public void borrarTodo(){

@@ -16,8 +16,12 @@ public class Archivo {
 
     public Archivo(String nombre) {
         this.nombre = nombre;
-        this.ruta = System.getProperty("user.dir") + File.separator + "archivos" + File.separator + this.nombre;
+        this.ruta = System.getProperty("user.dir") + File.separator + "archivos" + File.separator + this.nombre + ".txt";
         crearCarpetaSiNoExiste();
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 
     private void crearCarpetaSiNoExiste() {
@@ -47,5 +51,42 @@ public class Archivo {
             System.out.println("Error al leer el archivo: " + e.getMessage());
         }
         return "";
+    }
+
+    public StringBuilder leerRegsArchivo(String archivo){
+        try{
+            int sw = 1;
+            StringBuilder result = new StringBuilder();
+            BufferedReader reader = new BufferedReader(new FileReader(archivo));
+            String line;
+            StringBuilder register = new StringBuilder();
+            while ((line = reader.readLine()) != null ) {
+                if(line.startsWith("ID:")){
+                    register.append("ID:");
+                }
+                if(line.equals("----------------------------")){
+                    if (register.length() > 0){
+                        register.deleteCharAt(register.length()-1);
+                        register.deleteCharAt(register.length()-1);
+                        result.append(register.toString()).append("--- ");
+                        register.setLength(0);
+                        sw = 1;
+                    } 
+                } else{
+                    String[] separatedLine = line.split(":");
+                    String value = separatedLine[1] ;
+                    register.append(value);
+                    sw++;
+                    if (sw > 2){
+                        register.append(" |");
+                    }
+                }
+            }
+            reader.close();
+            return result;
+        } catch(IOException e){
+            System.out.println(e);
+            return null;
+        }
     }
 }
