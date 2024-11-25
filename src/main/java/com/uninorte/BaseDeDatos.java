@@ -2,6 +2,8 @@ package com.uninorte;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class BaseDeDatos {
 
@@ -11,6 +13,15 @@ public class BaseDeDatos {
     public static Tabla getTable(ArrayList<String>structure){
         for (Tabla tabla : tablas) {
             if (tabla.getStructure().equals(structure)){
+                return tabla;
+            }
+        }
+        return null;
+    }
+
+    public static Tabla getTableFromId(String tableId){
+        for (Tabla tabla : tablas) {
+            if (tabla.getTableId().equals(tableId)){
                 return tabla;
             }
         }
@@ -68,13 +79,19 @@ public class BaseDeDatos {
             }else{
                 table = getTable(structure);
                 formattedTableId = table.getTableId();
-                System.out.println("Ricky es la bestia");
             }
+
+            for (Registro existingReg : table.getRegisters()) {
+                if (existingReg.getDataMap().equals(registro.getDataMap())) {
+                    return formattedTableId + existingReg.getRegisterId();
+                }
+            }
+            
             int registerId = table.getNumberOfRegisters()+1;
             String formattedRegisterId = String.format("%03d", registerId);
+            registro.setRegisterId(formattedRegisterId);
             String combinedId = formattedTableId + formattedRegisterId ;
             table.addReg(registro.getDataMap(),combinedId,registro); 
-            
         return combinedId; 
     }
 
@@ -104,8 +121,19 @@ public class BaseDeDatos {
     }
 
     public static boolean EditarReg(String recordId, Object... newValues) {
-       
+       String tableId = recordId.substring(0, 3);
+       String registerId = recordId.substring(3, 6);
+       Tabla table = getTableFromId(tableId);
+       if (table == null){
         return false;
+       }
+       table.replaceRegister(registerId, newValues);
+       ArrayList<Object[]> registersValues = table.getRegistersValues();
+       table.borrarTodo();
+       for (Object[] objects : registersValues) {
+        AgregarRegistro(objects);
+       }
+       return true;
     }
 
     public static boolean BorrarReg(String recordId) {

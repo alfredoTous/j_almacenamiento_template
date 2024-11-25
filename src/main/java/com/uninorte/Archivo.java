@@ -74,7 +74,7 @@ public class Archivo {
                     } 
                 } else{
                     String[] separatedLine = line.split(":");
-                    String value = separatedLine[1] ;
+                    String value = separatedLine[1];
                     register.append(value);
                     sw++;
                     if (sw > 2){
@@ -89,4 +89,13 @@ public class Archivo {
             return null;
         }
     }
+
+    public void deleteFile(){
+        String rutaArchivo = this.ruta;
+        File archivo = new File(rutaArchivo); 
+        archivo.delete();
+    }
 }
+
+// esperado: ID: 001001 true | 0 | Hola de nuevo --- ID: 001002 false | 1 | mundo ----- ID: 002001 false | 1.5
+// obtenido: ID: 001001 false | 0 | Hola --- ID: 001002 true | 1 |  mundo ----- ID: 002001 true | 1.5

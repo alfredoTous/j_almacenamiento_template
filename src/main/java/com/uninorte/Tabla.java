@@ -21,6 +21,51 @@ public class Tabla {
         return structure;
     }
 
+    public void replaceRegister(String registerId, Object... values) {
+        for (int i = 0; i < registers.size(); i++) {
+            Registro registro = registers.get(i);
+            if (registro.getRegisterId().equals(registerId)) {
+                registro.clearDataMap();
+                for (Object value : values) {
+                    String key = value.getClass().getSimpleName().toLowerCase();
+                    registro.addData(key, value);
+                }
+                registers.set(i, registro);
+                break;
+            }
+        }
+    }
+    
+
+    public ArrayList<Object[]> getRegistersValues(){
+        ArrayList<Object[]> registersValues = new ArrayList<>();
+        for (Registro registro : registers) {
+            Object[] values = registro.getDataMap().values().toArray();
+            registersValues.add(values);
+        }
+        return registersValues;
+    }
+
+    public ArrayList<Registro> getReGenerateTable(String tableId){
+        ArrayList<Registro>registersTemp = new ArrayList<>();
+        for (Registro registro : registers) {
+            registersTemp.add(registro);
+        }
+        borrarTodo();
+        return registersTemp;
+    }
+
+    public void reGenerateTable1111(){
+        ArrayList<Registro>registersTemp = new ArrayList<>();
+        for (Registro registro : registers) {
+            registersTemp.add(registro);
+        }
+        registers.clear();
+        for (Registro register : registersTemp) {
+            addReg(register.getDataMap(), this.tableId, register);
+        }
+    }
+
     public void addReg(Map<String, Object> dataMap, String combinedId,Registro register) {
         registers.add(register);
         StringBuilder sb = new StringBuilder();
@@ -60,6 +105,10 @@ public class Tabla {
 
     public int getNumberOfRegisters(){
         return registers.size();
+    }
+
+    public ArrayList<Registro> getRegisters() {
+        return registers;
     }
 
 }

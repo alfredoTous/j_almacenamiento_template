@@ -14,8 +14,20 @@ public class Registro {
     public Map<String, Object> getDataMap() {
         return dataMap;
     }
+
+    public void setRegisterId(String registerId) {
+        this.registerId = registerId;
+    }
+
+    public String getRegisterId() {
+        return registerId;
+    }
     
     public void addData(String key,Object value){
         dataMap.put(key, value);
+    }
+
+    public void clearDataMap() {
+       dataMap.clear();
     }
 }
