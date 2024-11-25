@@ -58,7 +58,7 @@ public class BaseDeDatos {
                 String key = datos[i].getClass().getSimpleName().toLowerCase();
                 structure.add(key);
                 
-                int counter = 2; 
+                int counter = 1; 
                 while (registro.getDataMap().containsKey(key)){
                     key = datos[i].getClass().getSimpleName().toLowerCase()+counter;
                 }
@@ -129,7 +129,7 @@ public class BaseDeDatos {
        }
        table.replaceRegister(registerId, newValues);
        ArrayList<Object[]> registersValues = table.getRegistersValues();
-       table.borrarTodo();
+       table.borrarContenido();
        for (Object[] objects : registersValues) {
         AgregarRegistro(objects);
        }
@@ -159,5 +159,4 @@ public class BaseDeDatos {
         }
         return tablas.size();
     }
-
 }

@@ -30,13 +30,12 @@ public class Tabla {
                     String key = value.getClass().getSimpleName().toLowerCase();
                     registro.addData(key, value);
                 }
-                registers.set(i, registro);
+                
                 break;
             }
         }
     }
     
-
     public ArrayList<Object[]> getRegistersValues(){
         ArrayList<Object[]> registersValues = new ArrayList<>();
         for (Registro registro : registers) {
@@ -44,26 +43,6 @@ public class Tabla {
             registersValues.add(values);
         }
         return registersValues;
-    }
-
-    public ArrayList<Registro> getReGenerateTable(String tableId){
-        ArrayList<Registro>registersTemp = new ArrayList<>();
-        for (Registro registro : registers) {
-            registersTemp.add(registro);
-        }
-        borrarTodo();
-        return registersTemp;
-    }
-
-    public void reGenerateTable1111(){
-        ArrayList<Registro>registersTemp = new ArrayList<>();
-        for (Registro registro : registers) {
-            registersTemp.add(registro);
-        }
-        registers.clear();
-        for (Registro register : registersTemp) {
-            addReg(register.getDataMap(), this.tableId, register);
-        }
     }
 
     public void addReg(Map<String, Object> dataMap, String combinedId,Registro register) {
@@ -97,6 +76,11 @@ public class Tabla {
         }
         structure.clear();
         registers.clear();
+    }
+
+    public void borrarContenido(){
+        registers.clear();
+        archivo.clearFile();
     }
 
     public String getTableId() {

@@ -30,4 +30,5 @@ public class Registro {
     public void clearDataMap() {
        dataMap.clear();
     }
+
 }

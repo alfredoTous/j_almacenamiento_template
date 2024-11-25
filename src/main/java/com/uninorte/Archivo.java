@@ -31,6 +31,14 @@ public class Archivo {
         }
     }
 
+    public void clearFile(){
+        try (FileWriter writer = new FileWriter(ruta, false)) {
+            
+        } catch (IOException e) {
+            System.err.println("Error al limpiar el archivo: " + e.getMessage());
+        }
+    }
+
     public String getRuta() {
         return ruta;
     }
