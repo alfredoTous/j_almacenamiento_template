@@ -21,6 +21,15 @@ public class Tabla {
         return structure;
     }
 
+    public void borrarReg(Registro registro) {
+        for (int i = registers.size() - 1; i >= 0; i--) {
+            if (registers.get(i).equals(registro)) {
+                registers.remove(i); 
+            }
+        }
+    }
+    
+
     public void replaceRegister(String registerId, Object... values) {
         for (int i = 0; i < registers.size(); i++) {
             Registro registro = registers.get(i);

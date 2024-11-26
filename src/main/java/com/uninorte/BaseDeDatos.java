@@ -155,7 +155,30 @@ public class BaseDeDatos {
     }
 
     public static boolean BorrarReg(String recordId) {
-        return false;
+        String tableId = recordId.substring(0, 3);
+        String registerId = recordId.substring(3, 6);
+        Tabla tabla = null;
+        for (Tabla table : tablas) {
+            if(table.getTableId().equals(tableId)){
+                tabla = table;
+                for (Registro register : table.getRegisters()) {
+                    if(register.getRegisterId().equals(registerId)){
+                        table.borrarReg(register);
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+        if(tabla == null){
+            return false;
+        }
+        ArrayList<Object[]> registersValues = tabla.getRegistersValues();
+        tabla.borrarContenido();
+        for (Object[] objects : registersValues) {
+         AgregarRegistro(objects);
+        }
+        return true;
     }
 
     public static Registro obtenerReg(String recordId){
