@@ -136,12 +136,6 @@ public class BaseDeDatos {
        return true;
     }
 
-    public static boolean BorrarReg(String recordId) {
-       
-        return false;
-    }
-
-
     public static int ObtenerNumRegistrosEnTabla(int i) {
         String formattedTableId = String.format("%03d", i);
         for (Tabla tabla : tablas) {
@@ -158,5 +152,37 @@ public class BaseDeDatos {
             return -1;
         }
         return tablas.size();
+    }
+
+    public static boolean BorrarReg(String recordId) {
+        return false;
+    }
+
+    public static Registro obtenerReg(String recordId){
+        String tableId = recordId.substring(0, 3);
+        String registerId = recordId.substring(3, 6);
+        Tabla table = getTableFromId(tableId);
+        if (table == null){
+            return null;
+        }
+        for (Registro register : table.getRegisters()) {
+            if(register.getRegisterId().equals(registerId)){
+                return register;
+            }
+        }
+        return null;
+    }
+
+    public static String consultarReg(String recordId){
+        Registro reg = obtenerReg(recordId);
+        if(reg == null){
+            return null;
+        }
+        Map<String,Object> regDataMap = reg.getDataMap();
+        return regDataMap.toString();
+    }
+
+    public static void actualizarBaseDeDatos(){
+        //Actualizar memoria y archivos
     }
 }
