@@ -1,53 +1,12 @@
 package com.uninorte;
 
-import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class BaseDeDatos {
 
     private static ArrayList<ArrayList<String>> regStructures = new ArrayList<>();
     private static ArrayList<Tabla> tablas = new ArrayList<>();
-
-    public static Tabla getTable(ArrayList<String>structure){
-        for (Tabla tabla : tablas) {
-            if (tabla.getStructure().equals(structure)){
-                return tabla;
-            }
-        }
-        return null;
-    }
-
-    public static Tabla getTableFromId(String tableId){
-        for (Tabla tabla : tablas) {
-            if (tabla.getTableId().equals(tableId)){
-                return tabla;
-            }
-        }
-        return null;
-    }
-
-    public void addRegStructure(Object... data){
-        ArrayList<String> structure = new ArrayList<>();
-        for (int i = 0; i < data.length; i++) {
-            String dataType = data[i].getClass().getSimpleName().toLowerCase();
-            structure.add(dataType);
-        }
-        regStructures.add(structure);
-    }
-
-    public static boolean containsStructure(Object... data){
-            ArrayList<String> structure = new ArrayList<>();
-            for (int i = 0; i < data.length; i++) {
-                String dataType = data[i].getClass().getSimpleName().toLowerCase();
-                structure.add(dataType);
-            }
-            if(regStructures.contains(structure) == true){
-                return true;
-            }
-            return false;
-        }
     
         // Método público para agregar un registro con parámetros variables
     public static String AgregarRegistro(Object... datos) {
@@ -205,7 +164,42 @@ public class BaseDeDatos {
         return regDataMap.toString();
     }
 
-    public static void actualizarBaseDeDatos(){
-        //Actualizar memoria y archivos
+    public static Tabla getTable(ArrayList<String>structure){
+        for (Tabla tabla : tablas) {
+            if (tabla.getStructure().equals(structure)){
+                return tabla;
+            }
+        }
+        return null;
     }
+
+    public static Tabla getTableFromId(String tableId){
+        for (Tabla tabla : tablas) {
+            if (tabla.getTableId().equals(tableId)){
+                return tabla;
+            }
+        }
+        return null;
+    }
+
+    public void addRegStructure(Object... data){
+        ArrayList<String> structure = new ArrayList<>();
+        for (int i = 0; i < data.length; i++) {
+            String dataType = data[i].getClass().getSimpleName().toLowerCase();
+            structure.add(dataType);
+        }
+        regStructures.add(structure);
+    }
+
+    public static boolean containsStructure(Object... data){
+            ArrayList<String> structure = new ArrayList<>();
+            for (int i = 0; i < data.length; i++) {
+                String dataType = data[i].getClass().getSimpleName().toLowerCase();
+                structure.add(dataType);
+            }
+            if(regStructures.contains(structure) == true){
+                return true;
+            }
+            return false;
+        }
 }
